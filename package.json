@@ -4,8 +4,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "parcel serve ./app/index.html --port 8080 --dist-dir distdev",
-    "build": "parcel build ./app/index.html"
-
+    "build": "parcel build --public-url ./ ./app/index.html"
   },
   "devDependencies": {
     "@parcel/transformer-inline-string": "2.7.0",
