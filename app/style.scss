@@ -1,0 +1,39 @@
+@use 'sass:math';
+@import "../node_modules/picnic/src/themes/default/theme";
+@import "../node_modules/picnic/src/vendor/compass-breakpoint/stylesheets/breakpoint";
+@import "../node_modules/picnic/src/plugins/normalize/plugin";
+
+@import "../node_modules/picnic/src/plugins/generic/plugin";
+@import "../node_modules/picnic/src/plugins/fontello/plugin";
+
+@import "../node_modules/picnic/src/plugins/grid/plugin";
+@import "../node_modules/picnic/src/plugins/nav/plugin";
+
+body{
+    display: flex;
+    flex-direction: column;
+}
+.app-body{
+    height: 100vh;
+    padding-top: 3em;
+    display: flex;
+    flex-direction: column;
+}
+
+button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em;
+    background-color: #0074d9;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+.nav-options{
+    display: flex;
+    > div{
+        padding: 5px;
+    }
+}

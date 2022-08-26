@@ -1,0 +1,12 @@
+.time-bar{
+    display: inline-flex;
+    border: 1px solid black;
+    > div{
+        width: 12px;
+        height: 15px;
+        border-right: 1px solid black;
+        &:last-child{
+            border-right: none;
+        }
+    }
+}

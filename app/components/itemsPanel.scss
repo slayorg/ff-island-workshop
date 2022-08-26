@@ -1,0 +1,84 @@
+.items-panel{
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    height: 100%;
+    > .items{
+        > .item-row{
+            &.has-bonus{
+                background-color: rgb(165, 235, 165);;
+            }
+            &.disabled{
+                background-color: rgb(204, 204, 204)!important;
+                color: rgb(63, 63, 63)!important;
+            }
+            display: flex;
+            > .item-info{
+                display: flex;
+                height: 50px;
+    
+                > .add-button{
+                    width: 40px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    > button{
+                        height: 36px;
+                        width: 36px;
+                    }
+                }
+    
+                > div{
+                    display: flex;
+                    align-items: center;
+                }
+                >.item-name{
+                    width: 300px;
+                    padding-left: 15px;
+                }
+                >.item-hours{
+                    width: 130px;
+                    > .item-hours-number{
+                        width: 30px;
+                    }
+                }
+                
+                >.item-value{
+                    width: 140px;
+                    > div{
+                        width: 70px;
+                        display: flex;
+                        justify-content: end;
+                    }
+                    
+                }
+    
+                
+            }
+            > .item-materials{
+                padding-left: 15px;
+                > .material-item{
+                    display: flex;
+                    > .material-icon{
+                        width: 25px;
+                        height: 25px;
+                        > div{
+                            height: 100%;
+                            width: 100%;
+                        }
+                    }
+                    > .material-name{
+                        padding-left: 10px;
+                        width: 200px;
+                    }
+                    border-bottom: 1px solid grey;
+                    &:last-child{
+                        border-bottom: none;
+                    }
+                }
+            }
+
+            border-bottom: 1px solid black;
+        }
+    }
+}

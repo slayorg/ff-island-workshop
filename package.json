@@ -1,0 +1,23 @@
+{
+  "name": "ff-island-workshop",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "parcel serve ./app/index.html --port 8080 --dist-dir distdev",
+    "build": "parcel build ./app/index.html"
+
+  },
+  "devDependencies": {
+    "@parcel/transformer-inline-string": "2.7.0",
+    "@parcel/transformer-sass": "2.7.0",
+    "@types/node": "^18.7.13",
+    "parcel": "^2.7.0",
+    "picnic": "^7.1.0",
+    "preact": "^10.10.6",
+    "typescript": "^4.7.4"
+  },
+  "alias": {
+    "preact/jsx-dev-runtime": "preact/jsx-runtime"
+  }
+}
