@@ -1,7 +1,6 @@
 {
   "name": "ff-island-workshop",
   "version": "1.0.0",
-  "main": "index.js",
   "license": "MIT",
   "scripts": {
     "dev": "parcel serve ./app/index.html --port 8080 --dist-dir distdev",
@@ -14,8 +13,10 @@
     "@types/node": "^18.7.13",
     "parcel": "^2.7.0",
     "picnic": "^7.1.0",
-    "preact": "^10.10.6",
     "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "preact": "^10.10.6"
   },
   "alias": {
     "preact/jsx-dev-runtime": "preact/jsx-runtime"
