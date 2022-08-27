@@ -1,3 +1,13 @@
+export interface FFData{
+    workshopItems: WorkshopItem[];
+    pouchItems: PouchItem[];
+    categories: Map<number, string>;
+    workshopRanks: {rank: number, bonus: number}[];
+    supplyValues: {value: number, name: string, bonus: number}[];
+    popularityValues: {value: number, name: string, bonus: number}[];
+    popularitySchedule: number[][];
+};
+
 export interface Item{
     id: number;
     name: string;
@@ -9,6 +19,7 @@ export interface PouchItem extends Item{
 };
 
 export interface WorkshopItem extends Item{
+    craftId: number;
     categories: string[];
     materials: {
         item: PouchItem;
@@ -17,6 +28,8 @@ export interface WorkshopItem extends Item{
     tier: number;
     hours: number;
     value: number;
+
+    supply: FFData["supplyValues"][0];
 };
 
 export interface AgendaItem{
@@ -24,11 +37,12 @@ export interface AgendaItem{
     bonus: number;
 }
 
-export interface SummaryData{
-    hours: number;
+export interface CraftResults{
     money: number;
-    values: {
+    hours: number;
+    items: {
+        item: WorkshopItem;
         value: number;
-        bonus: boolean;
+        efficiencyBonus: boolean;
     }[];
 }

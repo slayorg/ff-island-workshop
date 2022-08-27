@@ -2,7 +2,6 @@
     display: flex;
     flex-direction: column;
     overflow-y: auto;
-    height: 100%;
     > .items{
         > .item-row{
             &.has-bonus{
@@ -15,7 +14,6 @@
             display: flex;
             > .item-info{
                 display: flex;
-                height: 50px;
     
                 > .add-button{
                     width: 40px;
@@ -31,10 +29,30 @@
                 > div{
                     display: flex;
                     align-items: center;
+                    height: 50px;
                 }
-                >.item-name{
+                >.item-title{
                     width: 300px;
                     padding-left: 15px;
+                    display: flex;
+                    flex-direction: column;
+                    height: 70px;
+                    > .item-name{
+                        height: 30px;
+                        margin-top: 10px;
+                    }
+                    > div{
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                    }
+                    > .item-categories{
+                        flex: 1;
+                        font-size: 0.8em;
+                        > div{
+                            padding: 0 10px;
+                        }
+                    }
                 }
                 >.item-hours{
                     width: 130px;
@@ -76,6 +94,9 @@
                         border-bottom: none;
                     }
                 }
+            }
+            > .item-options{
+                padding-left: 15px;
             }
 
             border-bottom: 1px solid black;

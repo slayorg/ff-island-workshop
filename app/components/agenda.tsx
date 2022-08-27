@@ -1,37 +1,36 @@
 import "./agenda.scss";
-import { SummaryData, WorkshopItem } from "../models";
+import { CraftResults, WorkshopItem } from "../models";
 import ItemIcon from "./itemIcon";
 import { useMemo, useState } from "preact/hooks";
 import { hasEfficiencyBonus } from "../services/utils";
 import TimeBar from "./timeBar";
 
 
-export default function Agenda({items, summaryData, removeItem}: {workshopItems: WorkshopItem[], items: WorkshopItem[], summaryData: SummaryData, removeItem:(index:number) => void}){
+export default function Agenda({craftList, removeItem}: {workshopItems: WorkshopItem[], craftList: CraftResults, removeItem:(index:number) => void}){
 
 
     return (
         <div class="agenda">
             <div class="agenda-summary">
                 <div>
-                    Total earnings: {summaryData.money}
+                    Total earnings: {craftList.money}
                 </div>
                 <div>
-                    Hours remaining: {24 - summaryData.hours}
+                    Hours remaining: {24 - craftList.hours}
                 </div>
             </div>
-            <div><TimeBar hours={24} filled={summaryData.hours} /></div>
+            <div><TimeBar hours={24} filled={craftList.hours} /></div>
             <div class="agenda-items">
-                {items.map((item, index) => (
-                    <div class={"agenda-item " + (summaryData.values[index].bonus ? "eff-bonus":"")}>
+                {craftList.items.map((item, index) => (
+                    <div class={"agenda-item " + (item.efficiencyBonus ? "eff-bonus":"")}>
                         <div class="item-top">
-                            <ItemIcon item={item}/>
+                            <ItemIcon item={item.item}/>
                             <div onClick={() => removeItem(index)}><button>&times;</button></div>
                         </div>
-                        <div class="item-bottom">{summaryData.values[index].value}</div>
+                        <div class="item-bottom">{item.value}</div>
                     </div>
                 ))}
             </div>
-            
         </div>
     )
 }

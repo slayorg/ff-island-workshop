@@ -10,6 +10,3 @@ if (hot) {
     throw "hotReload";
   });
 }
-
-
-console.log("started");

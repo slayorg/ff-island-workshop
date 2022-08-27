@@ -1,11 +1,12 @@
-import { useEffect, useMemo, useReducer, useState } from "preact/hooks";
+import { useMemo, useReducer, useState } from "preact/hooks";
 import Agenda from "./components/agenda";
 import ItemsPanel from "./components/itemsPanel";
+import { FFData, WorkshopItem } from "./models";
 import AgendaReducer from "./reducers/agendaReducer";
-import loadFFData from "./services/ffDataLoader";
-import { hasEfficiencyBonus } from "./services/utils";
+import {ffData} from "./services/ffDataLoader";
+import { processCraftList } from "./services/utils";
 
-const ffData = loadFFData();
+
 console.log(ffData);
 
 const tiers = new Array(10).fill(0).map((_, index) => {
@@ -14,30 +15,25 @@ const tiers = new Array(10).fill(0).map((_, index) => {
 
 export default function App(){
     const [tier, setTier] = useState(1);
-    const [workshopRank, setWorkshopRank] = useState<(typeof ffData)["workshopRanks"][0]>(ffData.workshopRanks[0]);
+    const [workshopRank, setWorkshopRank] = useState(ffData.workshopRanks[0]);
+    const [groove, setGroove] = useState(0);
+    const [week, setWeek] = useState(25);
+    const [updateValue, update] = useState({});
+
     const [agendaItems, dispatch] = useReducer(AgendaReducer, []);
 
-    const summaryData = useMemo(() => {
-        const agendaValues = agendaItems.map((item, index) => {
-            let value = item.value;
-            let effBonus = hasEfficiencyBonus(item, agendaItems[index-1])
-            value = effBonus ? item.value*2: item.value;
-            value *= (workshopRank.bonus/100);
-            return {value: Math.floor(value),bonus: effBonus};
-        });
-        const totalMoney = agendaValues.length > 0 ? agendaValues.map(v => v.value).reduce((a, b) => a + b) : 0;
-        const totalHours = agendaItems.length> 0 ? agendaItems.map(i => i.hours).reduce((a, b) => a + b) : 0;
-
-        return {
-            hours: totalHours,
-            money: totalMoney,
-            values: agendaValues
-        };
-    }, [agendaItems, workshopRank]);
+    const craftList = useMemo(() => {
+        return processCraftList(agendaItems, { groove: groove, workshopBonus: workshopRank.bonus, popularityWeek: week});
+    }, [agendaItems, workshopRank, groove, week, updateValue]);
 
     const workshopItems = useMemo(() => {
         return ffData.workshopItems.filter(i => i.tier <=tier);
     }, [tier]);
+
+    const updateSupply = (item: WorkshopItem, supplyIndex:number) => {
+        item.supply = ffData.supplyValues[supplyIndex];
+        update({});
+    }
 
     return (
         <>
@@ -60,12 +56,23 @@ export default function App(){
                             ))}
                         </select>
                     </div>
+                    <div>
+                        <span>Groove: </span>
+                        <input type="number" min="0" max="45" value={groove} onChange={(ev) => setGroove(ev.currentTarget.valueAsNumber)} />
+                    </div>
+                    <div>
+                        <select onChange={(ev) => setWeek(parseInt(ev.currentTarget.value))} value={week}>
+                            {ffData.popularitySchedule.map((s, i) => (
+                                <option value={i.toString()}>Week {i}</option>
+                            ))}
+                        </select>
+                    </div>
                 </div>
                 
             </nav>
             <div class="app-body">
-                <Agenda workshopItems={workshopItems} items={agendaItems} summaryData={summaryData} removeItem={(index) => dispatch({type: "remove", index})}/>
-                <ItemsPanel prevItem={agendaItems.slice(-1)?.[0]} items={workshopItems} summaryData={summaryData} addItem={(item) => dispatch({type: "add", item: item})}/>
+                <Agenda workshopItems={workshopItems} craftList={craftList} removeItem={(index) => dispatch({type: "remove", index})}/>
+                <ItemsPanel craftList={craftList} bonuses={{groove, workshop: workshopRank.bonus, popularityWeek: week}} addItem={(item) => dispatch({type: "add", item: item})} updateSupply={updateSupply}/>
             </div>
         </>
     )
