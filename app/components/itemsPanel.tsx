@@ -72,6 +72,7 @@ function ItemRow({item, bonus, onAdd, disabled, value, popularity, updateSupply}
 
 interface ItemsPanelProps {
     craftList: CraftResults;
+    tier: number;
     bonuses: {
         groove: number;
         workshop: number;
@@ -81,7 +82,7 @@ interface ItemsPanelProps {
     updateSupply: (item: WorkshopItem, supplyIndex: number) => void;
 };
 
-export default function ItemsPanel({addItem, craftList, bonuses, updateSupply}: ItemsPanelProps ){
+export default function ItemsPanel({craftList, tier, bonuses, addItem, updateSupply}: ItemsPanelProps ){
     const remainingHours = 24 - craftList.hours;
 
     let [efficiencyItems, regularItems] = useMemo(() => {
@@ -90,15 +91,19 @@ export default function ItemsPanel({addItem, craftList, bonuses, updateSupply}: 
         const prevItem = craftList.items.slice(-1)[0];
         if(prevItem){
             ffData.workshopItems.forEach(i => {
-                if(i.hours <= remainingHours){
-                    hasEfficiencyBonus(i, prevItem.item) ? efficiencyItems.push(i) : regularItems.push(i);
+                if(i.hours > remainingHours){
+                    return;
                 }
+                if(i.tier > tier){
+                    return;
+                }
+                hasEfficiencyBonus(i, prevItem.item) ? efficiencyItems.push(i) : regularItems.push(i);
             });
         } else {
-            regularItems = ffData.workshopItems;
+            regularItems = ffData.workshopItems.filter(i => i.tier <= tier);
         }
         return [efficiencyItems, regularItems];
-    }, [craftList]);
+    }, [craftList, tier]);
 
     return (
         <div class="items-panel">

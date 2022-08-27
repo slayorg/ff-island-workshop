@@ -6,7 +6,7 @@ import { hasEfficiencyBonus } from "../services/utils";
 import TimeBar from "./timeBar";
 
 
-export default function Agenda({craftList, removeItem}: {workshopItems: WorkshopItem[], craftList: CraftResults, removeItem:(index:number) => void}){
+export default function Agenda({craftList, removeItem}: {craftList: CraftResults, removeItem:(index:number) => void}){
 
 
     return (

@@ -71,8 +71,8 @@ export default function App(){
                 
             </nav>
             <div class="app-body">
-                <Agenda workshopItems={workshopItems} craftList={craftList} removeItem={(index) => dispatch({type: "remove", index})}/>
-                <ItemsPanel craftList={craftList} bonuses={{groove, workshop: workshopRank.bonus, popularityWeek: week}} addItem={(item) => dispatch({type: "add", item: item})} updateSupply={updateSupply}/>
+                <Agenda craftList={craftList} removeItem={(index) => dispatch({type: "remove", index})}/>
+                <ItemsPanel craftList={craftList} tier={tier} bonuses={{groove, workshop: workshopRank.bonus, popularityWeek: week}} addItem={(item) => dispatch({type: "add", item: item})} updateSupply={updateSupply}/>
             </div>
         </>
     )
