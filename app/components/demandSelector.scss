@@ -1,0 +1,16 @@
+.demand-selector{
+    min-width: 400px;
+    > .demand-info{
+        padding-bottom: 10px;
+    }
+    > .items{
+        > div{
+            display: flex;
+            padding-bottom: 5px;
+            > select{
+                margin-left: 10px;
+                flex: 1;
+            }
+        }
+    }
+}

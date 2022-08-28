@@ -1,29 +1,59 @@
 $agenda-row-height: 40px;
 
 .agenda{
-    
+    display: flex;
+    height: 30px;
+    &.selected{
+        .workshop-label{
+            font-weight:bold;
+            
+        }
+    }
+    .agenda-summary{
+        display: flex;
+        > .workshop-label{
+            width: 150px;
+            cursor:pointer;
+        }
+        > .workshop-rank{
+            > span{
+                padding-right: 5px;
+            }
+            > select{
+                width: 50px;
+            }
+            width: 120px;
+        }
+        padding-right: 20px;
+    }
     .agenda-items{
         display: flex;
+        border: 1px solid black;
+        &:empty{
+            border: none;
+        }
         > .agenda-item{
-            margin: 5px;
-            padding: 5px;
-            border: 1px solid black;
             display: flex;
-            flex-direction: column;
-            >.item-top{
-                display: flex;
-                button{
-                    background-color: unset;
-                    color: maroon;
-                }
-            }
-            >.item-bottom{
-                display: flex;
-                justify-content: center;
+            align-items: center;
+
+            &:not(:last-child){
+                border-right: 1px solid black;
             }
 
+            > .item-icon{
+                width: 20px;
+                height: 20px;
+                margin: 0 5px;
+            }
+            > button{
+                background-color: unset;
+                color: maroon;
+                font-size: 1.2em;
+            }
+            
+
             &.eff-bonus{
-                border: 2px solid black;
+                //border: 2px solid black;
                 background-color: rgb(212, 255, 212);
             }
         }

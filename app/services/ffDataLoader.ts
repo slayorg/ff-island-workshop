@@ -12,6 +12,7 @@ import MJICraftworksPopularityType from "bundle-text:../../data/MJICraftworksPop
 import MJICraftworksSupplyDefine from "bundle-text:../../data/MJICraftworksSupplyDefine.csv";
 
 import MJICraftworksPopularity from "bundle-text:../../data/MJICraftworksPopularity.csv";
+import MJICraftworksTension from "bundle-text:../../data/MJICraftworksTension.csv";
 
 const itemPouchCSV = readCsv(MJIItemPouch);
 const workshopObjectCSV = readCsv(MJICraftworksObject);
@@ -21,6 +22,7 @@ const popularityValues = readCsv(MJICraftworksPopularityType);
 const supplyValues = readCsv(MJICraftworksSupplyDefine);
 
 const popularitySchedule = readCsv(MJICraftworksPopularity);
+const landmarkValues = readCsv(MJICraftworksTension);
 
 function readCsv(data: string){
     return data.split(/\n/).map(l => l.split(","));
@@ -41,7 +43,6 @@ const POPULARITY_NAMES = [
 ];
 
 
-
 function loadFFData(){
     const data: FFData = {
         workshopItems: [],
@@ -50,12 +51,13 @@ function loadFFData(){
         workshopRanks: [],
         supplyValues: [],
         popularityValues: [],
-        popularitySchedule: []
+        popularitySchedule: [],
+        landmarkValues: []
     };
 
     for(let i=4; i<workshopRankRatio.length; i++){
         const row = workshopRankRatio[i];
-        if(row.length === 0){
+        if(row.length <= 1){
             continue;
         }
         data.workshopRanks.push({
@@ -66,7 +68,7 @@ function loadFFData(){
 
     for(let i=3; i<supplyValues.length; i++){
         const row = supplyValues[i];
-        if(row.length === 0){
+        if(row.length <= 1){
             continue;
         }
         data.supplyValues.push({
@@ -78,7 +80,7 @@ function loadFFData(){
 
     for(let i=4; i<popularityValues.length; i++){
         const row = popularityValues[i];
-        if(row.length === 0){
+        if(row.length <= 1){
             continue;
         }
         data.popularityValues.push({
@@ -90,16 +92,24 @@ function loadFFData(){
 
     for(let i=3; i<popularitySchedule.length; i++){
         const row = popularitySchedule[i];
-        if(row.length === 0){
+        if(row.length <= 1){
             continue;
         }
         const weekData: number[] = row.slice(1).map(v => parseInt(v));
         data.popularitySchedule.push(weekData);
     }
 
+    for(let i=3; i<landmarkValues.length; i++){
+        const row = landmarkValues[i];
+        if(row.length <= 1){
+            continue;
+        }
+        data.landmarkValues.push(parseInt(row[1]))
+    }
+
     for(let i=3; i<itemPouchCSV.length; i++){
         const row = itemPouchCSV[i];
-        if(row.length === 0){
+        if(row.length <= 1){
             continue;
         }
         const item = pouchItemData.Results.find(it => it.ID === parseInt(row[1]));
@@ -116,7 +126,7 @@ function loadFFData(){
 
     for(let i=4; i<workshopObjectThemeCSV.length; i++){
         const row = workshopObjectThemeCSV[i];
-        if(row.length === 0){
+        if(row.length <= 1){
             continue;
         }
         data.categories.set(parseInt(row[0]), row[1].trim().slice(1, -1))
@@ -124,7 +134,7 @@ function loadFFData(){
 
     for(let i=3; i<workshopObjectCSV.length; i++){
         const row = workshopObjectCSV[i];
-        if(row.length === 0){
+        if(row.length <= 1){
             continue;
         }
         const id = parseInt(row[1]);

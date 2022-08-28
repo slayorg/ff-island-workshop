@@ -7,6 +7,7 @@ import TimeBar from "./timeBar";
 import { calculateCraftValue, getPopularity, hasEfficiencyBonus } from "../services/utils";
 import { ffData } from "../services/ffDataLoader";
 import PopIcon from "./popIcon";
+import CraftingWeek from "../services/craftingWeek";
 
 
 interface ItemRowProps {
@@ -71,24 +72,21 @@ function ItemRow({item, bonus, onAdd, disabled, value, popularity, updateSupply}
 }
 
 interface ItemsPanelProps {
-    craftList: CraftResults;
+    week: CraftingWeek;
+    dayIndex: number;
+    workshopIndex: number;
     tier: number;
-    bonuses: {
-        groove: number;
-        workshop: number;
-        popularityWeek: number;
-    },
-    addItem: (item: WorkshopItem) => void;
     updateSupply: (item: WorkshopItem, supplyIndex: number) => void;
 };
 
-export default function ItemsPanel({craftList, tier, bonuses, addItem, updateSupply}: ItemsPanelProps ){
-    const remainingHours = 24 - craftList.hours;
+export default function ItemsPanel({week, dayIndex, workshopIndex, tier, updateSupply}: ItemsPanelProps ){
+    const workshop = week.days[dayIndex].workshops[workshopIndex];
+    const remainingHours = 24 - workshop.totalHours;
 
-    let [efficiencyItems, regularItems] = useMemo(() => {
+    /*let [efficiencyItems, regularItems] = useMemo(() => {
         let efficiencyItems: WorkshopItem[] = [];
         let regularItems: WorkshopItem[] = [];
-        const prevItem = craftList.items.slice(-1)[0];
+        const prevItem = workshop.crafts[workshop.crafts.length-1];
         if(prevItem){
             ffData.workshopItems.forEach(i => {
                 if(i.hours > remainingHours){
@@ -103,14 +101,31 @@ export default function ItemsPanel({craftList, tier, bonuses, addItem, updateSup
             regularItems = ffData.workshopItems.filter(i => i.tier <= tier);
         }
         return [efficiencyItems, regularItems];
-    }, [craftList, tier]);
+    }, [workshop, tier, week.watchValue]);*/
+
+
+    const craftItems = ffData.workshopItems.map(v => ({
+        item: v,
+        bonus: hasEfficiencyBonus(v, workshop.crafts[workshop.crafts.length-1]?.item),
+        visible: v.tier <= tier && v.hours <= remainingHours
+    })).sort((a, b) => {
+        if(a.visible === b.visible){
+            return a.bonus ? -1 : 1;
+        }
+        return a.visible ? -1 : 1;
+    });
 
     return (
         <div class="items-panel">
             <div class="items">
-                {efficiencyItems.map(i => <ItemRow key={i.id} item={i} bonus onAdd={() => addItem(i)} disabled={remainingHours < i.hours} value={calculateCraftValue(i, bonuses.workshop, bonuses.groove, true, getPopularity(i.craftId, bonuses.popularityWeek).bonus)} popularity={getPopularity(i.craftId, bonuses.popularityWeek)} updateSupply={(value) => updateSupply(i, value)}/>)}
-                {regularItems.map(i => <ItemRow key={i.id} item={i} onAdd={() => addItem(i)} disabled={remainingHours < i.hours} value={calculateCraftValue(i, bonuses.workshop, bonuses.groove, false, getPopularity(i.craftId, bonuses.popularityWeek).bonus)} popularity={getPopularity(i.craftId, bonuses.popularityWeek)} updateSupply={(value) => updateSupply(i, value)}/>)}
+                {craftItems.map(i => <ItemRow key={i.item.id} item={i.item} bonus={i.bonus} onAdd={() => week.addCraft(i.item, dayIndex, workshopIndex)} disabled={!i.visible} value={week.previewValue(i.item, dayIndex, workshopIndex)} popularity={getPopularity(i.item.craftId, week.demandWeek)} updateSupply={(value) => updateSupply(i.item, value)}/>)}
             </div>
         </div>
     )
 }
+
+/**
+ * 
+ * {efficiencyItems.map(i => <ItemRow key={i.id} item={i} bonus onAdd={() => week.addCraft(i, dayIndex, workshopIndex)} disabled={remainingHours < i.hours} value={week.previewValue(i, dayIndex, workshopIndex)} popularity={getPopularity(i.craftId, week.demandWeek)} updateSupply={(value) => updateSupply(i, value)}/>)}
+                {regularItems.map(i => <ItemRow key={i.id} item={i} onAdd={() => week.addCraft(i, dayIndex, workshopIndex)} disabled={remainingHours < i.hours} value={week.previewValue(i, dayIndex, workshopIndex)} popularity={getPopularity(i.craftId, week.demandWeek)} updateSupply={(value) => updateSupply(i, value)}/>)}
+ */

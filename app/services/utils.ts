@@ -46,5 +46,8 @@ export function processCraftList(items: WorkshopItem[], bonuses: {groove: number
 }
 
 export function getPopularity(craftId: number, week: number){
+    if(week === -1){
+        return ffData.popularityValues[2];
+    }
     return ffData.popularityValues[ffData.popularitySchedule[week][craftId]-1];
 }

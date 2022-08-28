@@ -5,7 +5,10 @@
     > .items{
         > .item-row{
             &.has-bonus{
-                background-color: rgb(165, 235, 165);;
+                background-color: rgb(165, 235, 165);
+                &.disabled{
+                    background-color: rgb(190, 202, 185)!important;
+                }
             }
             &.disabled{
                 background-color: rgb(204, 204, 204)!important;
@@ -20,6 +23,7 @@
                     display: flex;
                     justify-content: center;
                     align-items: center;
+                    font-size: 1.5em;
                     > button{
                         height: 36px;
                         width: 36px;

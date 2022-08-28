@@ -1,0 +1,47 @@
+.week-schedule{
+    display: inline-flex;
+    flex-direction: column;
+    padding: 5px;
+    margin: 5px;
+    border: 1px solid black;
+    > .week-summary{
+        display: flex;
+        align-items: center;
+        > div{
+            display: flex;
+        }
+        .week-label {
+            flex: 1;
+            font-weight:bold;
+            padding: 10px;
+        }
+        .demand-button{
+            display: flex;
+            align-items: center;
+        }
+        .week-info-item{
+            display: flex;
+
+            > div:nth-child(2){
+                width: 100px;
+                text-align: right;
+            }
+        }
+        >.week-days{
+            display: flex;
+            padding-left: 10px;
+            > div{
+                border: 1px solid grey;
+                background-color: rgb(216, 180, 180);
+                width: 40px;
+                height: 40px;
+                margin: 5px;
+                &.selected{
+                    background-color: rgb(70, 209, 100);
+                    border: 2px solid black;
+                }
+            }
+        }
+    }
+    
+}

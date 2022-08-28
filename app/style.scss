@@ -8,6 +8,10 @@
 
 @import "../node_modules/picnic/src/plugins/grid/plugin";
 @import "../node_modules/picnic/src/plugins/nav/plugin";
+@import "../node_modules/picnic/src/plugins/card/plugin";
+@import "../node_modules/picnic/src/plugins/modal/plugin";
+@import "../node_modules/picnic/src/plugins/label/plugin";
+@import "../node_modules/picnic/src/plugins/tooltip/plugin";
 
 body{
     display: flex;
@@ -24,7 +28,7 @@ button{
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1.5em;
+    
     background-color: #0074d9;
     color: white;
     border: none;
@@ -37,4 +41,22 @@ button{
     > div{
         padding: 5px;
     }
+}
+
+.global-settings{
+    display: flex;
+    padding: 10px;
+    > div{
+        padding-right: 20px;
+        > span{
+            padding-right: 10px;
+        }
+        > select{
+            width: 50px;
+        }
+    }
+}
+
+.workshop-groups{
+    padding: 10px;
 }

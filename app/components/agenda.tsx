@@ -1,33 +1,47 @@
 import "./agenda.scss";
-import { CraftResults, WorkshopItem } from "../models";
 import ItemIcon from "./itemIcon";
-import { useMemo, useState } from "preact/hooks";
-import { hasEfficiencyBonus } from "../services/utils";
 import TimeBar from "./timeBar";
+import { ffData } from "../services/ffDataLoader";
+import CraftingWeek from "../services/craftingWeek";
 
+interface IProps{
+    week: CraftingWeek;
+    workshopIndex: number;
+    dayIndex: number;
+    selected: boolean;
+    updateWorkshopRank: (workshopIndex: number, rank: number) => void;
+    onSelect: () => void;
+}
 
-export default function Agenda({craftList, removeItem}: {craftList: CraftResults, removeItem:(index:number) => void}){
-
-
+export default function Agenda({week, workshopIndex, dayIndex, selected, updateWorkshopRank, onSelect}: IProps){
+    const day = week.days[dayIndex];
+    const workshop = day.workshops[workshopIndex];
     return (
-        <div class="agenda">
+        <div class={"agenda " + (selected ? "selected":"")}>
             <div class="agenda-summary">
-                <div>
-                    Total earnings: {craftList.money}
+                <div class="workshop-label" onClick={onSelect}>
+                    Workshop {workshopIndex+1}
                 </div>
-                <div>
-                    Hours remaining: {24 - craftList.hours}
+                <div class="workshop-rank">
+                    <span>Rank</span>
+                    <select value={week.workshopRanks[workshopIndex]} onChange={(ev) => updateWorkshopRank(workshopIndex, parseInt(ev.currentTarget.value))}>
+                        {
+                            ffData.workshopRanks.map(r => (
+                                <option value={r.rank}>{r.rank}</option>
+                            ))
+                        }
+                    </select>
+                </div>
+                <div class="workshop-bar">
+                    <TimeBar hours={24} filled={workshop.totalHours} />
                 </div>
             </div>
-            <div><TimeBar hours={24} filled={craftList.hours} /></div>
             <div class="agenda-items">
-                {craftList.items.map((item, index) => (
-                    <div class={"agenda-item " + (item.efficiencyBonus ? "eff-bonus":"")}>
-                        <div class="item-top">
-                            <ItemIcon item={item.item}/>
-                            <div onClick={() => removeItem(index)}><button>&times;</button></div>
-                        </div>
-                        <div class="item-bottom">{item.value}</div>
+                {workshop.crafts.map((craft, index) => (
+                    <div class={"agenda-item tooltip-bottom " + (craft.bonus ? "eff-bonus":"")} data-tooltip={craft.item.name}>
+                        <ItemIcon item={craft.item}/>
+                        <div class="item-value">{craft.value}</div>
+                        <button onClick={() => week.removeCraft(index, dayIndex, workshopIndex)}>&times;</button>
                     </div>
                 ))}
             </div>
