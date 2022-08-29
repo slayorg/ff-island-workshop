@@ -159,8 +159,8 @@ export default function App(){
                     </div>
                 </div>
                 <div>
-                    <WeekSchedule label="Current week" selected={selectedDay[0]===0?selectedDay[1]:-1} selectDay={(day) => setSelectedDay([0, day])} setDemand={v => currentWeek.setDemandWeek(v)}/>
-                    <WeekSchedule label="Next week" selected={selectedDay[0]===1?selectedDay[1]:-1} selectDay={(day) => setSelectedDay([1, day])} setDemand={v => nextWeek.setDemandWeek(v)}/>
+                    <WeekSchedule label="Current week" week={currentWeek} selected={selectedDay[0]===0?selectedDay[1]:-1} selectDay={(day) => setSelectedDay([0, day])} setDemand={v => currentWeek.setDemandWeek(v)}/>
+                    <WeekSchedule label="Next week" week={nextWeek} selected={selectedDay[0]===1?selectedDay[1]:-1} selectDay={(day) => setSelectedDay([1, day])} setDemand={v => nextWeek.setDemandWeek(v)}/>
                 </div>
                 <div class="workshop-groups">
                     {

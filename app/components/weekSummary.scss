@@ -1,0 +1,29 @@
+.week-summary{
+    .week-total{
+        display: flex;
+        padding-bottom: 20px;
+        :first-child{
+            padding-right: 10px;
+        }
+    }
+    .week-summary-table{
+    
+        tr{
+            border-bottom: 1px solid black;
+            margin: 5px;
+        }
+        .item-name-icon{
+            display: flex;
+            width: 300px;
+            align-items: center;
+            > :first-child{
+                margin-right:10px;
+            }
+        }
+        .item-value{
+            width: 50px;
+            text-align: right;
+        }
+    }
+}
+

@@ -1,9 +1,10 @@
-import { CraftingDay, PopularitySchedule, WorkshopItem } from "../models";
+import { CraftingDay, PopularitySchedule, PouchItem, WorkshopItem } from "../models";
 import { ffData } from "./ffDataLoader";
 import { calculateCraftValue, getPopularity, hasEfficiencyBonus } from "./utils";
 
 export default class CraftingWeek{
     demandWeek: PopularitySchedule|null = null;
+    totalAmount: number = 0;
     days: CraftingDay[];
     workshopRanks: number[];
     startingGroove: number = 0;
@@ -80,6 +81,7 @@ export default class CraftingWeek{
     }
 
     update(dayIndex: number = 0){
+        this.totalAmount = 0;
         let groove = this.startingGroove;
         for(let i=dayIndex; i<this.days.length; i++){
             const day = this.days[i];
@@ -109,6 +111,7 @@ export default class CraftingWeek{
             });
             day.totalAmount = totalAmount;
             day.endOfDayGroove = groove + totalGrooveBonus;
+            this.totalAmount += day.totalAmount;
         }
         this.onUpdate();
         this.watchValue = {};
@@ -151,6 +154,30 @@ export default class CraftingWeek{
             });
         });
         this.update();
+    }
+
+
+    summarizeMaterials(){
+        const materials: Map<number, {craft: PouchItem, count: number}> = new Map();
+
+        this.days.forEach(day => {
+            day.workshops.forEach(workshop => {
+                workshop.crafts.forEach(craft => {
+                    craft.item.materials.forEach(material => {
+                        let mapMaterial = materials.get(material.item.id);
+                        if(!mapMaterial){
+                            mapMaterial = {
+                                craft: material.item,
+                                count: 0
+                            };
+                            materials.set(material.item.id, mapMaterial);
+                        }
+                        mapMaterial.count += material.quantity;
+                    });
+                });
+            });
+        });
+        return Array.from(materials.values());
     }
 }
 
