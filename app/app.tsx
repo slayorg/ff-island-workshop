@@ -1,5 +1,5 @@
 import { useEffect, useState } from "preact/hooks";
-import WorkshopComponent from "./components/agenda";
+import WorkshopComponent from "./components/workshopComponent";
 import ItemsPanel from "./components/itemsPanel";
 import WeekSchedule from "./components/weekSchedule";
 import { WorkshopItem } from "./models";

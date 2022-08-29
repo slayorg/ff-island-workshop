@@ -1,4 +1,4 @@
-import "./agenda.scss";
+import "./workshopComponent.scss";
 import ItemIcon from "./itemIcon";
 import TimeBar from "./timeBar";
 import { ffData } from "../services/ffDataLoader";
