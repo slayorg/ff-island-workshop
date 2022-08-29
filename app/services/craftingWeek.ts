@@ -1,9 +1,9 @@
-import { CraftingDay, WorkshopItem } from "../models";
+import { CraftingDay, PopularitySchedule, WorkshopItem } from "../models";
 import { ffData } from "./ffDataLoader";
 import { calculateCraftValue, getPopularity, hasEfficiencyBonus } from "./utils";
 
 export default class CraftingWeek{
-    demandWeek: number = -1;
+    demandWeek: PopularitySchedule|null = null;
     days: CraftingDay[];
     workshopRanks: number[];
     startingGroove: number = 0;
@@ -32,9 +32,8 @@ export default class CraftingWeek{
         }
     }
 
-    setDemandWeek(weekIndex: number){
-        console.log("set demand " + weekIndex);
-        this.demandWeek = weekIndex;
+    setDemandWeek(week: PopularitySchedule|null){
+        this.demandWeek = week;
         this.update();
     }
 
@@ -117,7 +116,7 @@ export default class CraftingWeek{
 
     stringify(){
         const data: SaveData = {
-            demandWeek: this.demandWeek,
+            demandWeek: this.demandWeek?.index,
             days: this.days.map(day => {
                 return day.workshops.map(workshop => {
                     return workshop.crafts.map(craft => {
@@ -131,7 +130,7 @@ export default class CraftingWeek{
 
     loadFromString(data: string){
         const result = JSON.parse(data) as SaveData;
-        this.demandWeek = result.demandWeek;
+        this.demandWeek = result.demandWeek !== undefined ? ffData.popularitySchedule[result.demandWeek] : null;
         result.days.forEach((day, dayIndex) => {
             day.forEach((workshop, workshopIndex) => {
                 this.days[dayIndex].workshops[workshopIndex].crafts = [];
@@ -156,6 +155,6 @@ export default class CraftingWeek{
 }
 
 interface SaveData{
-    demandWeek: number,
+    demandWeek?: number,
     days: number[][][]
 }

@@ -5,9 +5,14 @@ export interface FFData{
     workshopRanks: {rank: number, bonus: number}[];
     supplyValues: {value: number, name: string, bonus: number}[];
     popularityValues: {value: number, name: string, bonus: number}[];
-    popularitySchedule: number[][];
+    popularitySchedule: PopularitySchedule[];
     landmarkValues: number[];
 };
+
+export interface PopularitySchedule{
+    index: number;
+    data: number[];
+}
 
 export interface Item{
     id: number;

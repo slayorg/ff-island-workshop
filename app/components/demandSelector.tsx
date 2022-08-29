@@ -2,8 +2,9 @@ import "./demandSelector.scss";
 import { ffData } from "../services/ffDataLoader"
 import ItemIcon from "./itemIcon";
 import { useEffect, useState } from "preact/hooks";
+import { PopularitySchedule } from "../models";
 
-export default function DemandSelector({open, close, setDemand}: {open:boolean, close: () => void, setDemand: (value: number) => void}){
+export default function DemandSelector({open, close, setDemand}: {open:boolean, close: () => void, setDemand: (value: PopularitySchedule|null) => void}){
     const data = ffData.workshopItems.slice(0, 6);
     const [itemPops, setItemPops] = useState<{id: number, pop: number}[]>([
         {id: 1, pop: 0},
@@ -13,21 +14,22 @@ export default function DemandSelector({open, close, setDemand}: {open:boolean, 
         {id: 5, pop: 0},
         {id: 6, pop: 0}
     ]);
-    const [weeks, setWeeks] = useState<number[]>([]);
+    const [weeks, setWeeks] = useState<PopularitySchedule[]>([]);
 
     function findPopularityWeek(crafts: ({id: number, pop: number}|undefined)[]){
-        return ffData.popularitySchedule.filter(v => {
+        const weeks = ffData.popularitySchedule.filter((v) => {
             for(let n=0; n<crafts.length;n++){
                 const craft = crafts[n];
                 if(!craft){
                     continue;
                 }
-                if(craft.pop !== 0 && v[craft.id] !== craft.pop){
+                if(craft.pop !== 0 && v.data[craft.id] !== craft.pop){
                     return false;
                 }
             }
             return true;
-        }).map((_, index) => index);
+        });
+        return weeks;
     }
 
     const onPopSelect = (craftId: number, popularity: number) => {
@@ -38,6 +40,7 @@ export default function DemandSelector({open, close, setDemand}: {open:boolean, 
 
     const clearItemPops = () => {
         setItemPops(itemPops.map(i => ({...i, pop: 0})));
+        setDemand(null);
     }
 
     useEffect(() => {
@@ -46,8 +49,6 @@ export default function DemandSelector({open, close, setDemand}: {open:boolean, 
             setWeeks(weeks);
             if(weeks.length === 1){
                 setDemand(weeks[0]);
-            } else {
-                setDemand(-1);
             }
         }
     }, [itemPops, open])

@@ -1,4 +1,4 @@
-import { WorkshopItem } from "../models";
+import { PopularitySchedule, WorkshopItem } from "../models";
 import ItemIcon from "./itemIcon";
 import "./itemsPanel.scss";
 
@@ -86,27 +86,6 @@ interface ItemsPanelProps {
 export default function ItemsPanel({week, dayIndex, workshopIndex, tier, updateSupply}: ItemsPanelProps ){
     const workshop = week.days[dayIndex].workshops[workshopIndex];
     const remainingHours = 24 - workshop.totalHours;
-
-    /*let [efficiencyItems, regularItems] = useMemo(() => {
-        let efficiencyItems: WorkshopItem[] = [];
-        let regularItems: WorkshopItem[] = [];
-        const prevItem = workshop.crafts[workshop.crafts.length-1];
-        if(prevItem){
-            ffData.workshopItems.forEach(i => {
-                if(i.hours > remainingHours){
-                    return;
-                }
-                if(i.tier > tier){
-                    return;
-                }
-                hasEfficiencyBonus(i, prevItem.item) ? efficiencyItems.push(i) : regularItems.push(i);
-            });
-        } else {
-            regularItems = ffData.workshopItems.filter(i => i.tier <= tier);
-        }
-        return [efficiencyItems, regularItems];
-    }, [workshop, tier, week.watchValue]);*/
-
 
     const craftItems = ffData.workshopItems.map(v => ({
         item: v,

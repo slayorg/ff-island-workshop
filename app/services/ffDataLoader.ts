@@ -96,7 +96,10 @@ function loadFFData(){
             continue;
         }
         const weekData: number[] = row.slice(1).map(v => parseInt(v));
-        data.popularitySchedule.push(weekData);
+        data.popularitySchedule.push({
+            index: i-3,
+            data: weekData
+        });
     }
 
     for(let i=3; i<landmarkValues.length; i++){

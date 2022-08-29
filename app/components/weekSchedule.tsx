@@ -1,4 +1,5 @@
 import { useState } from "preact/hooks";
+import { PopularitySchedule } from "../models";
 import DemandSelector from "./demandSelector";
 import "./weekSchedule.scss";
 const DAYS = new Array(5).fill(0).map((_, i) => i);
@@ -7,7 +8,7 @@ interface IProps{
     label: string;
     selected: number;
     selectDay: (index: number) => void;
-    setDemand: (value: number) => void;
+    setDemand: (week: PopularitySchedule|null) => void;
 }
 
 export default function WeekSchedule({label, selected, selectDay, setDemand}: IProps){
