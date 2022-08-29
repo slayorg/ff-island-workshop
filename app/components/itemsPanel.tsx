@@ -1,10 +1,9 @@
-import { CraftResults, FFData, WorkshopItem } from "../models";
+import { WorkshopItem } from "../models";
 import ItemIcon from "./itemIcon";
 import "./itemsPanel.scss";
 
-import { useMemo } from "preact/hooks";
 import TimeBar from "./timeBar";
-import { calculateCraftValue, getPopularity, hasEfficiencyBonus } from "../services/utils";
+import { getPopularity, hasEfficiencyBonus } from "../services/utils";
 import { ffData } from "../services/ffDataLoader";
 import PopIcon from "./popIcon";
 import CraftingWeek from "../services/craftingWeek";
@@ -40,7 +39,12 @@ function ItemRow({item, bonus, onAdd, disabled, value, popularity, updateSupply}
                     <TimeBar hours={item.hours} emptyColor={"rgb(66, 228, 66)"}/>
                 </div>
                 <div class="item-value">
-                    <div>{value || item.value}</div>
+                    {value || item.value}
+                </div>
+                <div class="item-value">
+                    {((value || item.value)/item.hours).toFixed(1)}/h
+                </div>
+                <div class="item-pop">
                     <PopIcon value={popularity.value} />
                 </div>
             </div>
@@ -123,9 +127,3 @@ export default function ItemsPanel({week, dayIndex, workshopIndex, tier, updateS
         </div>
     )
 }
-
-/**
- * 
- * {efficiencyItems.map(i => <ItemRow key={i.id} item={i} bonus onAdd={() => week.addCraft(i, dayIndex, workshopIndex)} disabled={remainingHours < i.hours} value={week.previewValue(i, dayIndex, workshopIndex)} popularity={getPopularity(i.craftId, week.demandWeek)} updateSupply={(value) => updateSupply(i, value)}/>)}
-                {regularItems.map(i => <ItemRow key={i.id} item={i} onAdd={() => week.addCraft(i, dayIndex, workshopIndex)} disabled={remainingHours < i.hours} value={week.previewValue(i, dayIndex, workshopIndex)} popularity={getPopularity(i.craftId, week.demandWeek)} updateSupply={(value) => updateSupply(i, value)}/>)}
- */

@@ -12,8 +12,13 @@ $agenda-row-height: 40px;
     .agenda-summary{
         display: flex;
         > .workshop-label{
-            width: 150px;
+            width: 130px;
             cursor:pointer;
+        }
+        > .workshop-amount{
+            width: 75px;
+            text-align: right;
+            padding-right: 10px;
         }
         > .workshop-rank{
             > span{

@@ -13,7 +13,7 @@ interface IProps{
     onSelect: () => void;
 }
 
-export default function Agenda({week, workshopIndex, dayIndex, selected, updateWorkshopRank, onSelect}: IProps){
+export default function WorkshopComponent({week, workshopIndex, dayIndex, selected, updateWorkshopRank, onSelect}: IProps){
     const day = week.days[dayIndex];
     const workshop = day.workshops[workshopIndex];
     return (
@@ -32,7 +32,11 @@ export default function Agenda({week, workshopIndex, dayIndex, selected, updateW
                         }
                     </select>
                 </div>
+                <div class="workshop-amount">
+                    {workshop.totalAmount}
+                </div>
                 <div class="workshop-bar">
+                    
                     <TimeBar hours={24} filled={workshop.totalHours} />
                 </div>
             </div>

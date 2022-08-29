@@ -1,12 +1,10 @@
-import { useEffect, useMemo, useReducer, useState } from "preact/hooks";
-import Agenda from "./components/agenda";
+import { useEffect, useState } from "preact/hooks";
+import WorkshopComponent from "./components/agenda";
 import ItemsPanel from "./components/itemsPanel";
 import WeekSchedule from "./components/weekSchedule";
-import { FFData, WorkshopItem } from "./models";
-import AgendaReducer from "./reducers/agendaReducer";
+import { WorkshopItem } from "./models";
 import CraftingWeek from "./services/craftingWeek";
 import {ffData} from "./services/ffDataLoader";
-import { processCraftList } from "./services/utils";
 
 
 console.log(ffData);
@@ -14,8 +12,6 @@ console.log(ffData);
 const tiers = new Array(10).fill(0).map((_, index) => {
     return index+1;
 });
-
-
 
 let settings = {
     groove: 0,
@@ -72,7 +68,7 @@ export default function App(){
     const [workshopCount, setWorkshopCount] = useState(settings.workshopCount);
     const [selectedDay, setSelectedDay] = useState<[number, number]>([0, 0]);
     const [selectedWorkshop, setSelectedWorkshop] = useState(0);
-    const [updateValue, update] = useState({});
+    const [, update] = useState({});
 
     useEffect(() => {
         saveSettings({
@@ -127,7 +123,7 @@ export default function App(){
             <nav>
                 <div class="brand">
                     <span>Island Sanctuary Workshop Planner</span>
-                </div>         
+                </div>
             </nav>
             <div class="app-body">
                 <div class="global-settings">
@@ -169,7 +165,7 @@ export default function App(){
                 <div class="workshop-groups">
                     {
                         new Array(workshopCount).fill(0).map((_, i) => (
-                            <Agenda week={selectedDay[0]===0? currentWeek: nextWeek} workshopIndex={i} dayIndex={selectedDay[1]} selected={i === selectedWorkshop} updateWorkshopRank={updateWorkshopRank} onSelect={() => setSelectedWorkshop(i)}/>
+                            <WorkshopComponent week={selectedDay[0]===0? currentWeek: nextWeek} workshopIndex={i} dayIndex={selectedDay[1]} selected={i === selectedWorkshop} updateWorkshopRank={updateWorkshopRank} onSelect={() => setSelectedWorkshop(i)}/>
                         ))
                     }
                 </div>
