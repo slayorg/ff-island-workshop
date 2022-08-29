@@ -50,12 +50,6 @@ export interface CraftingDay{
 
 }
 
-
-export interface AgendaItem{
-    item: WorkshopItem;
-    bonus: number;
-}
-
 export interface CraftResults{
     money: number;
     hours: number;

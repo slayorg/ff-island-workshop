@@ -17,8 +17,8 @@ export default function WorkshopComponent({week, workshopIndex, dayIndex, select
     const day = week.days[dayIndex];
     const workshop = day.workshops[workshopIndex];
     return (
-        <div class={"agenda " + (selected ? "selected":"")}>
-            <div class="agenda-summary">
+        <div class={"workshop " + (selected ? "selected":"")}>
+            <div class="workshop-summary">
                 <div class="workshop-label" onClick={onSelect}>
                     Workshop {workshopIndex+1}
                 </div>
@@ -40,9 +40,9 @@ export default function WorkshopComponent({week, workshopIndex, dayIndex, select
                     <TimeBar hours={24} filled={workshop.totalHours} />
                 </div>
             </div>
-            <div class="agenda-items">
+            <div class="workshop-items">
                 {workshop.crafts.map((craft, index) => (
-                    <div class={"agenda-item tooltip-bottom " + (craft.bonus ? "eff-bonus":"")} data-tooltip={craft.item.name}>
+                    <div class={"workshop-item tooltip-bottom " + (craft.bonus ? "eff-bonus":"")} data-tooltip={craft.item.name}>
                         <ItemIcon item={craft.item}/>
                         <div class="item-value">{craft.value}</div>
                         <button onClick={() => week.removeCraft(index, dayIndex, workshopIndex)}>&times;</button>

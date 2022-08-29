@@ -1,6 +1,4 @@
-$agenda-row-height: 40px;
-
-.agenda{
+.workshop{
     display: flex;
     height: 30px;
     &.selected{
@@ -9,7 +7,7 @@ $agenda-row-height: 40px;
             
         }
     }
-    .agenda-summary{
+    .workshop-summary{
         display: flex;
         > .workshop-label{
             width: 130px;
@@ -31,13 +29,13 @@ $agenda-row-height: 40px;
         }
         padding-right: 20px;
     }
-    .agenda-items{
+    .workshop-items{
         display: flex;
         border: 1px solid black;
         &:empty{
             border: none;
         }
-        > .agenda-item{
+        > .workshop-item{
             display: flex;
             align-items: center;
 
