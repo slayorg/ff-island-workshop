@@ -60,3 +60,33 @@ button{
 .workshop-groups{
     padding: 10px;
 }
+
+.info-icon{
+    background-color: #4285F4;
+    color: white;
+    padding: 5px;
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 16px;
+    margin-left: 20px;
+}
+
+.info-dates{
+    display: flex;
+    padding: 10px;
+    > div{
+        display: flex;
+        flex: 1;
+        justify-content: center;
+    }
+}
+
+.issues-list{
+    > ul{
+        margin: 0;
+    }
+    
+}

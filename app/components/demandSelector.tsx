@@ -55,7 +55,7 @@ export default function DemandSelector({open, close, setDemand}: {open:boolean, 
     
     return (
         <div class="modal">
-            <input id="modal_1" checked={open} type="checkbox" />
+            <input id="demand-modal" checked={open} type="checkbox" />
             <div class="overlay" onClick={close}></div>
             <article>
                 <header>

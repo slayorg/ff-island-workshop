@@ -12,7 +12,7 @@ export default function WeekSummary({week, open, close}: {week: CraftingWeek, op
 
     return (
         <div class="modal">
-            <input id="modal_1" checked={open} type="checkbox" />
+            <input id="week-modal" checked={open} type="checkbox" />
             <div class="overlay" onClick={close}></div>
             <article>
                 <header>

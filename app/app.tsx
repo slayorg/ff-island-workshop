@@ -123,6 +123,7 @@ export default function App(){
             <nav>
                 <div class="brand">
                     <span>Island Sanctuary Workshop Planner</span>
+                    <label for="info-modal" class="info-icon">?</label>
                 </div>
             </nav>
             <div class="app-body">
@@ -171,6 +172,26 @@ export default function App(){
                 </div>
                 
                 <ItemsPanel week={selectedDay[0]===0? currentWeek: nextWeek} dayIndex={selectedDay[1]} workshopIndex={selectedWorkshop} tier={tier} updateSupply={updateSupply}/>
+            </div>
+
+            <div class="modal">
+                <input id="info-modal" type="checkbox" />
+                <label for="info-modal" class="overlay"></label>
+                <article>
+                    <section class="content">
+                        <div>Made by Slayorg Isaeli @ Faerie</div>
+                        <div class="issues-list">
+                            <div>Current issues</div>
+                            <ul>
+                                <li>Groove bonus doesn't increase from crafts, only uses initial groove</li>
+                            </ul>
+                        </div>
+                        <div class="info-dates">
+                            <div><a href="https://github.com/slayorg/ff-island-workshop">Source Code</a></div>
+                            <div>Updated 2022-08-31</div>
+                        </div>
+                    </section>
+                </article>
             </div>
         </>
     )
