@@ -21,8 +21,7 @@ export default function WeekSummary({week, open, close}: {week: CraftingWeek, op
                 </header>
                 <section class="content week-summary">
                     <div class="week-total">
-                        <div>Total:</div>
-                        <div>{week.totalAmount}</div>
+                        
                     </div>
                     <table class="week-summary-table">
                         <tbody>

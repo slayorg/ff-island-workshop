@@ -35,9 +35,13 @@ if(savedSettings){
 const currentWeek = new CraftingWeek();
 const nextWeek = new CraftingWeek();
 
-currentWeek.setStartingGroove(settings.groove);
+(window as any).week = currentWeek;
 
+currentWeek.setStartingGroove(settings.groove);
+currentWeek.setMaxGroove(ffData.landmarkValues[settings.landmarkCount]);
 currentWeek.setWorkshopRanks(settings.workshopRanks);
+
+nextWeek.setMaxGroove(ffData.landmarkValues[settings.landmarkCount]);
 nextWeek.setWorkshopRanks(settings.workshopRanks);
 
 const savedCurrentWeek = localStorage.getItem("currentWeek");
@@ -47,6 +51,7 @@ if(savedCurrentWeek){
 const savedNextWeek = localStorage.getItem("nextWeek");
 if(savedNextWeek){
     nextWeek.loadFromString(savedNextWeek);
+    
 }
 
 console.log(currentWeek);
@@ -90,8 +95,8 @@ export default function App(){
 
     const updateSupply = (item: WorkshopItem, supplyIndex:number) => {
         item.supply = ffData.supplyValues[supplyIndex];
-        currentWeek.update();
-        nextWeek.update();
+        currentWeek.updateDay();
+        nextWeek.updateDay();
     }
 
     currentWeek.onUpdate = () => {
@@ -116,6 +121,22 @@ export default function App(){
             groove,
             workshopRanks: currentWeek.workshopRanks
         });
+    }
+
+    const updateLandmarkCount = (value: number) => {
+        setLandmarkCount(value);
+        const maxGroove = ffData.landmarkValues[value];
+        currentWeek.setMaxGroove(maxGroove);
+        nextWeek.setMaxGroove(maxGroove);
+    }
+
+    const setWeekFinished = () => {
+        if(window.confirm("Activate next week? Current week will be deleted and replaced by next week.")){
+            const data = nextWeek.stringify();
+            currentWeek.loadFromString(data);
+            nextWeek.reset();
+            setGroove(0);
+        }
     }
 
     return (
@@ -146,7 +167,7 @@ export default function App(){
                     </div>
                     <div>
                         <span>Landmarks</span>
-                        <select value={landmarkCount} onChange={(ev) => setLandmarkCount(parseInt(ev.currentTarget.value))}>
+                        <select value={landmarkCount} onChange={(ev) => updateLandmarkCount(parseInt(ev.currentTarget.value))}>
                             {
                                 ffData.landmarkValues.map((value, i) => (
                                     <option value={i}>{i}</option>
@@ -157,6 +178,9 @@ export default function App(){
                     <div>
                         <span>Groove</span>
                         <input type="number" min="0" max={ffData.landmarkValues[landmarkCount]} value={groove} onChange={(ev) => setStartingGroove(ev.currentTarget.valueAsNumber)} />
+                    </div>
+                    <div>
+                        <button onClick={setWeekFinished}>Week Finished</button>
                     </div>
                 </div>
                 <div>
@@ -181,14 +205,11 @@ export default function App(){
                     <section class="content">
                         <div>Made by Slayorg Isaeli @ Faerie</div>
                         <div class="issues-list">
-                            <div>Current issues</div>
-                            <ul>
-                                <li>Groove bonus doesn't increase from crafts, only uses initial groove</li>
-                            </ul>
+                            <div></div>
                         </div>
                         <div class="info-dates">
                             <div><a href="https://github.com/slayorg/ff-island-workshop">Source Code</a></div>
-                            <div>Updated 2022-08-31</div>
+                            <div>Updated 2022-09-05</div>
                         </div>
                     </section>
                 </article>

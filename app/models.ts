@@ -41,7 +41,7 @@ export interface WorkshopItem extends Item{
 export interface CraftingDay{
 
     totalAmount: number;
-    endOfDayGroove: number;
+    grooveHours: number[];
 
     workshops: {
         totalAmount: number;
@@ -50,6 +50,7 @@ export interface CraftingDay{
             item: WorkshopItem;
             value: number;
             bonus: boolean;
+            groove: number;
         }[];
     }[];
 
