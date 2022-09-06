@@ -5,14 +5,16 @@ import { useEffect, useState } from "preact/hooks";
 import { PopularitySchedule } from "../models";
 
 export default function DemandSelector({open, close, setDemand}: {open:boolean, close: () => void, setDemand: (value: PopularitySchedule|null) => void}){
-    const data = ffData.workshopItems.slice(0, 6);
+    const data = ffData.workshopItems.slice(0, 8);
     const [itemPops, setItemPops] = useState<{id: number, pop: number}[]>([
         {id: 1, pop: 0},
         {id: 2, pop: 0},
         {id: 3, pop: 0},
         {id: 4, pop: 0},
         {id: 5, pop: 0},
-        {id: 6, pop: 0}
+        {id: 6, pop: 0},
+        {id: 7, pop: 0},
+        {id: 8, pop: 0}
     ]);
     const [weeks, setWeeks] = useState<PopularitySchedule[]>([]);
 
